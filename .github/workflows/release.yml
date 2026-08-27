@@ -1,0 +1,27 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Release and upload installers
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            installers/*
+            checksums.txt
+          generate_release_notes: true
+          draft: false
+          prerelease: false
