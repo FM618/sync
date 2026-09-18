@@ -16,12 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Extract latest changelog section
+        run: "awk '/^## /{if(c++) exit} c' CHANGELOG.md > .release-notes.md"
+
       - name: Create Release and upload installers
         uses: softprops/action-gh-release@v2
         with:
           files: |
             installers/*
             checksums.txt
-          generate_release_notes: true
+          body_path: .release-notes.md
           draft: false
           prerelease: false

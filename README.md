@@ -18,7 +18,7 @@
 - ⚠️ **冲突处理**：同名文件弹窗选择覆盖 / 重命名 / 取消，可「应用到所有」。
 - 📋 **审计日志**：记录连接 / 断开 / 配对 / 拒绝 / 传输，持久化到本地；主窗口底部日志区实时显示。
 - 📑 **双栏布局**：主窗口第一行左右两栏（本机目录 | 对方目录），第二行日志区域占满全宽。
-- 🚀 **系统托盘 + 开机自启**：关闭窗口后后台常驻；收到连接申请时自动显示主窗口弹窗确认。
+- 🚀 **系统托盘 + 开机自启（默认关闭）**：关闭窗口后后台常驻；收到连接申请时自动显示主窗口弹窗确认；开机自启动可在「设置」中开启。
 
 ## 截图
 
@@ -32,12 +32,12 @@
 
 | 平台 | 架构 | 安装包 | 大小 | 状态 |
 |------|------|--------|------|------|
-| macOS | Apple Silicon (arm64) | [sync_0.1.0_aarch64.dmg](installers/sync_0.1.0_aarch64.dmg) | 4.0 MB | ✅ 已提供 |
-| Linux | amd64 (deb) | [sync_0.1.0_amd64.deb](installers/sync_0.1.0_amd64.deb) | 5.0 MB | ✅ 已提供 |
-| Linux | x86_64 (rpm) | [sync-0.1.0_x86_64.rpm](installers/sync-0.1.0_x86_64.rpm) | 5.0 MB | ✅ 已提供 |
-| Linux | x86_64 (AppImage) | [sync_0.1.0_amd64.AppImage](installers/sync_0.1.0_amd64.AppImage) | 87 MB | ✅ 已提供 |
-| Windows | x64 (msi) | [sync_0.1.0_x64_en-US.msi](installers/sync_0.1.0_x64_en-US.msi) | 3.9 MB | ✅ 已提供 |
-| Windows | x64 (exe) | [sync_0.1.0_x64-setup.exe](installers/sync_0.1.0_x64-setup.exe) | 2.7 MB | ✅ 已提供 |
+| macOS | Apple Silicon (arm64) | [sync_0.1.1_aarch64.dmg](installers/sync_0.1.1_aarch64.dmg) | 4.0 MB | ✅ 已提供 |
+| Linux | amd64 (deb) | [sync_0.1.1_amd64.deb](installers/sync_0.1.1_amd64.deb) | 5.0 MB | ✅ 已提供 |
+| Linux | x86_64 (rpm) | [sync-0.1.1-1.x86_64.rpm](installers/sync-0.1.1-1.x86_64.rpm) | 5.0 MB | ✅ 已提供 |
+| Linux | x86_64 (AppImage) | [sync_0.1.1_amd64.AppImage](installers/sync_0.1.1_amd64.AppImage) | 80 MB | ✅ 已提供 |
+| Windows | x64 (msi) | [sync_0.1.1_x64_en-US.msi](installers/sync_0.1.1_x64_en-US.msi) | 3.9 MB | ✅ 已提供 |
+| Windows | x64 (exe) | [sync_0.1.1_x64-setup.exe](installers/sync_0.1.1_x64-setup.exe) | 2.7 MB | ✅ 已提供 |
 
 每个安装包的 SHA-256 校验和见 [checksums.txt](checksums.txt)。
 
@@ -50,7 +50,7 @@
 shasum -a 256 -c checksums.txt
 
 # Windows (PowerShell)
-Get-FileHash .\installers\sync_0.1.0_x64_en-US.msi -Algorithm SHA256
+Get-FileHash .\installers\sync_0.1.1_x64_en-US.msi -Algorithm SHA256
 ```
 
 ## 安装说明
@@ -67,7 +67,7 @@ Get-FileHash .\installers\sync_0.1.0_x64_en-US.msi -Algorithm SHA256
 **Debian / Ubuntu（.deb）**
 
 ```bash
-sudo apt install ./sync_0.1.0_amd64.deb
+sudo apt install ./sync_0.1.1_amd64.deb
 ```
 
 `apt` 会自动拉取运行时依赖（GTK3 / WebKit2GTK / libsoup3 等）。安装后桌面应用菜单中会出现 `sync`。
@@ -75,15 +75,15 @@ sudo apt install ./sync_0.1.0_amd64.deb
 **Fedora / RHEL / openSUSE（.rpm）**
 
 ```bash
-sudo dnf install ./sync-0.1.0_x86_64.rpm   # Fedora / RHEL
-sudo zypper install ./sync-0.1.0_x86_64.rpm # openSUSE
+sudo dnf install ./sync-0.1.1-1.x86_64.rpm   # Fedora / RHEL
+sudo zypper install ./sync-0.1.1-1.x86_64.rpm # openSUSE
 ```
 
 **任意发行版（AppImage，免安装）**
 
 ```bash
-chmod +x sync_0.1.0_amd64.AppImage
-./sync_0.1.0_amd64.AppImage
+chmod +x sync_0.1.1_amd64.AppImage
+./sync_0.1.1_amd64.AppImage
 ```
 
 AppImage 不需要安装，直接运行即可（若提示需要 FUSE，安装 `libfuse2` 后重试）。
@@ -122,4 +122,7 @@ AppImage 不需要安装，直接运行即可（若提示需要 FUSE，安装 `l
 
 ## 更新日志
 
+完整变更记录见 [CHANGELOG.md](CHANGELOG.md)。
+
+- **v0.1.1**（2026-09-18）：新增「设置」面板，开机自启动改为默认关闭、可在设置中开启；修复从对端下载文件永久超时（仅剩 0 字节残留）的问题；新增下载实时进度显示与完成 / 失败通知。
 - **v0.1.0**（2026-08-26）：首个公开版本。节点发现、加密连接、双向目录浏览、文件/目录传输、断点续传、审计日志、系统托盘。
